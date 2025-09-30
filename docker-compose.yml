@@ -1,0 +1,19 @@
+services:
+  cobalt:
+    container_name: cobalt
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        WEB_HOST: "https://www.ddunddun.shop/"
+        WEB_DEFAULT_API: "https://c.ddunddun.shop/"
+    init: true
+    read_only: true
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8003:9000 # api
+      - 0.0.0.0:8004:9001 # web
+    environment:
+      API_URL: "https://c.ddunddun.shop/"
+      API_AUTH_REQUIRED: 0
+      DURATION_LIMIT: 86400 # 24 hours
