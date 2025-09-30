@@ -1,7 +1,7 @@
 # OS directory info files
 .DS_Store
 desktop.ini
-
+.idea
 # node
 node_modules
 
