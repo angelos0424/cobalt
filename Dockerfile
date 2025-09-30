@@ -34,7 +34,6 @@ WORKDIR /app
 RUN apk add --no-cache python3
 COPY --from=build-api --chown=node:node /prod/api /app
 COPY --from=build-web --chown=node:node /app/web /app/web
-COPY .git /app/.git
 
 USER node
 
