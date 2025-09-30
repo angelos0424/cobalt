@@ -96,16 +96,10 @@ export type CobaltSession = {
 
 export type CobaltServerInfo = {
     cobalt: {
-        version: string,
         url: string,
         startTime: string,
         turnstileSitekey?: string,
         services: string[]
-    },
-    git: {
-        branch: string,
-        commit: string,
-        remote: string,
     }
 }
 

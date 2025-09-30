@@ -2,7 +2,6 @@ import cors from "cors";
 import http from "node:http";
 import rateLimit from "express-rate-limit";
 import { setGlobalDispatcher, EnvHttpProxyAgent } from "undici";
-import { getCommit, getBranch, getRemote, getVersion } from "@imput/version-info";
 
 import jwt from "../security/jwt.js";
 import stream from "../stream/stream.js";
@@ -24,14 +23,6 @@ import * as APIKeys from "../security/api-keys.js";
 import * as Cookies from "../processing/cookie/manager.js";
 import * as YouTubeSession from "../processing/helpers/youtube-session.js";
 
-const git = {
-    branch: await getBranch(),
-    commit: await getCommit(),
-    remote: await getRemote(),
-}
-
-const version = await getVersion();
-
 const acceptRegex = /^application\/json(; charset=utf-8)?$/;
 
 const corsConfig = env.corsWildcard ? {} : {
@@ -51,7 +42,6 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     const getServerInfo = () => {
         return JSON.stringify({
             cobalt: {
-                version: version,
                 url: env.apiURL,
                 startTime: `${startTimestamp}`,
                 turnstileSitekey: env.sessionEnabled ? env.turnstileSitekey : undefined,
@@ -59,7 +49,6 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                     return friendlyServiceName(e);
                 }),
             },
-            git,
         });
     }
 
@@ -359,10 +348,6 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
                 Bright(Cyan("cobalt ")) + Bright("API ^ω^") + "\n" +
 
                 "~~~~~~\n" +
-                Bright("version: ") + version + "\n" +
-                Bright("commit: ") + git.commit + "\n" +
-                Bright("branch: ") + git.branch + "\n" +
-                Bright("remote: ") + git.remote + "\n" +
                 Bright("start time: ") + startTime.toUTCString() + "\n" +
                 "~~~~~~\n" +
 
